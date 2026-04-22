@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Child — An Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f4ef;
+    --bg-warm: #f0ebe2;
+    --text: #1a1814;
+    --text-light: #7a7570;
+    --warm: #9a7d5a;
+    --line: #ddd8d0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* PROGRESS LINE */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 1px;
+    background: var(--warm);
+    width: 0%;
+    z-index: 100;
+    transition: width 0.1s linear;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+    background: linear-gradient(to bottom, var(--bg), transparent);
+  }
+
+  .nav-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--warm);
+  }
+
+  .nav-link {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-link:hover { color: var(--warm); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.5s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--warm);
+  }
+
+  .hero-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--warm), transparent);
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1s forwards;
+  }
+
+  .hero-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-light);
+    max-width: 520px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  /* LETTER SECTIONS */
+  .letter {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .letter-section {
+    padding: 6rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .letter-section:first-child { border-top: none; }
+
+  .section-marker {
+    font-size: 0.58rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-marker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .letter-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+
+  .letter-section h2 em {
+    font-style: italic;
+    color: var(--warm);
+  }
+
+  .letter-section p {
+    font-size: 1rem;
+    line-height: 2;
+    color: #4a4540;
+    margin-bottom: 1.5rem;
+  }
+
+  .letter-section p:last-child { margin-bottom: 0; }
+
+  /* MEDITATION BLOCK */
+  .meditation-block {
+    background: var(--bg-warm);
+    border-left: 2px solid var(--warm);
+    padding: 3rem 3.5rem;
+    margin: 4rem 0;
+  }
+
+  .meditation-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 2.1;
+    color: var(--text-light);
+    margin-bottom: 1.2rem;
+  }
+
+  .meditation-block p:last-child { margin-bottom: 0; }
+
+  .meditation-block strong {
+    color: var(--text);
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .meditation-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 2rem;
+    display: block;
+  }
+
+  /* PROCESS STEPS */
+  .steps {
+    margin: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .step-item:first-child { border-top: 1px solid var(--line); }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--line);
+    line-height: 1;
+    padding-top: 0.2rem;
+  }
+
+  .step-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--warm);
+    margin-bottom: 0.6rem;
+  }
+
+  .step-content p {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--text-light);
+    margin-bottom: 0;
+  }
+
+  /* GENTLE NOTE */
+  .gentle-note {
+    background: var(--bg-warm);
+    padding: 2.5rem 3rem;
+    margin: 3rem 0;
+    position: relative;
+  }
+
+  .gentle-note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .gentle-note::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .gentle-note p {
+    font-size: 0.92rem;
+    line-height: 2;
+    color: var(--text-light);
+    margin-bottom: 0;
+  }
+
+  /* PRACTICAL */
+  .practical-list {
+    list-style: none;
+    margin: 2rem 0;
+  }
+
+  .practical-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #4a4540;
+    display: flex;
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+
+  .practical-list li::before {
+    content: '—';
+    color: var(--warm);
+    flex-shrink: 0;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--bg-warm);
+    padding: 8rem 2rem;
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .cta-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .cta-section p {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 1.1rem 3rem;
+    border: 1px solid var(--warm);
+    color: var(--warm);
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-button:hover {
+    background: var(--warm);
+    color: var(--bg);
+  }
+
+  .cta-or {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--line);
+    margin: 1rem 0;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .cta-email {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--warm);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.2rem;
+    transition: border-color 0.3s;
+  }
+
+  .cta-email:hover { border-color: var(--warm); }
+
+  /* FOOTER */
+  footer {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .footer-links a {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--warm); }
+
+  .footer-copy {
+    font-size: 0.6rem;
+    color: var(--line);
+    margin-top: 2rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 1.5rem 2rem; }
+    .meditation-block { padding: 2rem; }
+    .gentle-note { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav>
+  <span class="nav-title">Dear Child</span>
+  <a href="mailto:a.fotograf@gmail.com" class="nav-link">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">An invitation to participate</p>
+  <h1 class="hero-title">Dear<br><em>Child</em></h1>
+  <div class="hero-line"></div>
+  <p class="hero-intro">A portrait project about the message only you can send — from who you are now, to who you once were.</p>
+</section>
+
+<!-- LETTER BODY -->
+<div class="letter">
+
+  <!-- WHAT THIS IS -->
+  <div class="letter-section reveal">
+    <div class="section-marker">The project</div>
+    <h2>A message from the present<br>to the <em>child you were</em></h2>
+    <p>Dear Child is a portrait series built around a simple idea: that the adult you are now has something to say to the child you once were. Not a question. Not advice. A message. Something that child needed to hear. Something only you can say.</p>
+    <p>Each participant chooses an age from their past — the one that arrives, not the one they think they should choose. From that place, if something wants to be said, they write it down. Then I photograph them. Two portraits: one before, one after. The face going in, and the face that returns.</p>
+    <p>The written message is displayed alongside the portraits in the exhibition — in a small glass frame, in your own handwriting, between the two photographs of your face.</p>
+  </div>
+
+  <!-- WHAT WILL HAPPEN -->
+  <div class="letter-section reveal">
+    <div class="section-marker">The session</div>
+    <h2>What will<br><em>happen</em></h2>
+    <p>Here is the shape of our time together, so you can arrive without needing to prepare anything.</p>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>We meet</h3>
+          <p>We start slowly. A cup of tea or water, wherever we are. No agenda. Just arriving together. We'll also talk about the location — where feels right for you. We find it together.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>A short meditation</h3>
+          <p>I'll guide you through a short meditation. You don't need to prepare for it or know what's coming. Just arrive.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>The writing</h3>
+          <p>If something wants to be said to that child — a word, a feeling, a message — you write it down by hand, in the space, in the moment. As much or as little as arrives. It can also be nothing. This is yours.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>The portrait</h3>
+          <p>When you look up, I'll be there. You don't need to pose. You don't need to perform. Just stay with whatever is still there. I'll come to you. Two photographs — one with your eyes closed, one open.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- GENTLE NOTE ON CLOTHING -->
+  <div class="letter-section reveal">
+    <div class="section-marker">One more thing</div>
+    <h2>A gentle<br><em>note</em></h2>
+    <p>As the photographer, I find that clothing can sometimes draw attention away from what the portrait is really about — the face, the body, the moment itself.</p>
+
+    <div class="gentle-note">
+      <p>If it feels right to you, you're welcome to remove your upper clothing for the portrait. Not for how it looks — but to let the image breathe, and let you be seen more simply. As the photographer, I sometimes wonder if there's something true about meeting your younger self without the layers we've learned to wear.</p>
+      <p style="margin-top:1rem;">If it doesn't feel right — your portrait is complete exactly as you are. There is no preference, no pressure, no right answer. You don't need to decide anything now. We can talk about it when we meet, or not at all.</p>
+    </div>
+  </div>
+
+  <!-- PRACTICAL -->
+  <div class="letter-section reveal">
+    <div class="section-marker">Practical</div>
+    <h2>Before<br><em>we meet</em></h2>
+    <p>A few simple things:</p>
+    <ul class="practical-list">
+      <li>Wear something you feel like yourself in. There's no dress code.</li>
+      <li>There's nothing to rehearse or figure out in advance. You don't need to know your age or your message before you arrive.</li>
+      <li>If an age or a feeling surfaces before we meet — let it. But don't force it.</li>
+      <li>The session takes roughly one to two hours including finding our location together.</li>
+      <li>Your written text will be displayed in the exhibition alongside your portraits, in your own handwriting. We'll discuss this together and you'll have full say over what is shown.</li>
+      <li>All images are black and white. You will see and approve the final selections before anything is printed or exhibited.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner reveal">
+    <h2>Ready to say something<br>to the child you were?</h2>
+    <p>If this resonates — reach out. We'll find a time to meet, talk briefly about the project, and take it from there. No commitment required from a first conversation.</p>
+    <a href="mailto:a.fotograf@gmail.com?subject=Dear Child — I'd like to participate" class="cta-button">Send me a message</a>
+    <span class="cta-or">or</span>
+    <a href="mailto:a.fotograf@gmail.com" class="cta-email">a.fotograf@gmail.com</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-name">Avi Ohayon — Photographer</p>
+  <div class="footer-links">
+    <a href="https://www.photography-by-avi.com/" target="_blank">Website</a>
+    <a href="mailto:a.fotograf@gmail.com">Email</a>
+  </div>
+  <p class="footer-copy">Dear Child — A Portrait Project — Copenhagen — 2025</p>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progress').style.width = progress + '%';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
